@@ -1,0 +1,134 @@
+  --Question1
+select customer_id,size,purchase_amount,item_purchased,
+from shoping_trends
+where size is null and purchase_amount > 50;
+
+--Question2
+select 
+    count(customer_id) as Total_purchases,
+    ifnull(season,'Unknown Season') as Season
+from shoping_trends
+group by season;
+
+--Question3
+select count(customer_id) as Customer_count,
+       ifnull(payment_method,'Not Provided') as Payment_method
+       from shoping_trends
+       group by 2;
+
+--Question4
+select customer_id,promo_code_used,review_rating,item_purchased,
+from shoping_trends
+where promo_code_used is null and review_rating < 3.0;
+
+--Question5
+select shipping_type,
+round(avg(ifnull(purchase_amount,0)),2) as Average_purchase_amount
+from shoping_trends
+group by shipping_type;
+
+--Question6
+select ifnull(location,'Unknown') as locaton,
+       count(customer_id) as Total_purchases,
+       from shoping_trends
+       where previous_purchases >5 and payment_method is not null
+       group by location;
+
+--Question 7
+select customer_id,
+ifnull(purchase_amount,0) as PURCHASE_AMOUNT,
+case
+when purchase_amount >80 then 'High'
+when purchase_amount between 50 and 80 then 'Medium'
+ELSE 'Low'
+end as Spender_Category
+from shoping_trends;
+
+--Question8
+select customer_id,color,previous_purchases,
+from shoping_trends
+where previous_purchases is null and color is not null;
+
+--Question9
+select ifnull(frequency_of_purchases,'Unknown') FREQUENCY_OF_PURCHASES,
+sum(purchase_amount) as Total_purchase_amount,
+from shoping_trends
+GROUP BY FREQUENCY_OF_PURCHASES;
+
+--Question 10
+select CATEGORY,
+      count(customer_id) as Total_purchases,
+from shoping_trends
+where category is not null
+group by category;
+
+--Question11
+select location,
+sum(ifnull(purchase_amount,0)) as Total_purchase_amount
+from shoping_trends
+group by location
+order by Total_purchase_amount desc
+limit 5;
+
+--Question12
+select gender, size,
+ count(customer_id) as Null_color_count
+ from shoping_trends
+ where color is null
+ group by gender, size;
+
+--Question13
+select item_purchased,
+count(customer_id) Null_shipping_type_count
+from shoping_trends
+where shipping_type is null and previous_purchases > 3
+group by item_purchased;
+
+--Question14
+select payment_method,
+count(customer_id) as Missing_review_rating_count
+from shoping_trends
+where review_rating is null
+group by payment_method;
+
+--Questio15
+select ifnull(category,'Unknown') CATEGORY,
+      avg(ifnull(review_rating,0)) as Average_review_rating
+from shoping_trends
+where review_rating > 3.5
+group by category;
+
+--Question 16
+select color,
+avg(age) as average_age
+from shoping_trends
+where color is null
+group by color;
+
+--Question17
+select count(customer_id) as customer_count,
+      case
+      when shipping_type = 'Express' or shipping_type = 'Next Day Air' then 'Fast'
+      when shipping_type = 'Standard' then 'Slow'
+      else 'Other'
+      end as Deivery_speed
+from shoping_trends
+group by all;
+
+--Question18
+select customer_id, purchase_amount, promo_code_used,
+from shoping_trends
+where purchase_amount is null and promo_code_used = 'Yes';
+
+--Question19
+select location,
+    max(ifnull(previous_purchases,0)) as Max_pvious_purchases,
+    avg(ifnull(review_rating,0)) as Average_review_rating
+from shoping_trends
+where review_rating > 4.0
+group by location;
+
+--Question20
+select customer_id,shipping_type,purchase_amount,item_purchased
+from shoping_trends
+where shipping_type is null and purchase_amount between 30 and 70;
